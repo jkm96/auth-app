@@ -33,9 +33,30 @@ export async function storeAccessToken(storeTokenRequest: StoreTokenRequest) {
     }
 }
 
-export async function getAccessToken(tokenCookie: string | undefined) {
+export async function getAccessToken(tokenCookie: string) {
     try {
+        const response = await fetch(`${baseUrl}/token/retrieve`, {
+            method: 'POST',
+            headers: {
+                'x-api-key':`${apiKey}`,
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tokenCookie),
+            credentials: 'same-origin'
+        });
 
+        if (response.ok) {
+            return response.json();
+        } else {
+            try {
+                const errorResponse = await response.json();
+                console.log("error storing token", errorResponse)
+                const errorMessage = errorResponse.error || 'Request failed with unknown error';
+                return NextResponse.json(errorMessage);
+            } catch (error) {
+                return NextResponse.json(error);
+            }
+        }
     } catch (error) {
         throw error;
     }

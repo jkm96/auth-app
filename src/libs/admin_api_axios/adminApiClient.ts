@@ -1,5 +1,5 @@
 import axios from "axios";
-import https from "https";
+import * as https from "https";
 
 const adminApiClient = axios.create({
     baseURL: `${process.env.ADMIN_API_URL}`,
@@ -12,7 +12,12 @@ const adminApiClient = axios.create({
 
 adminApiClient.interceptors.request.use(
     function (config) {
-        console.log("axios interceptor",config.url)
+        // console.log("axios interceptor",config.url)
+        // console.log("axios request headers",config.headers)
+        let url = config.url as string;
+        if (!url.includes("auth")){
+
+        }
         return config;
     },
     function (error) {
