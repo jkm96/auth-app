@@ -5,6 +5,7 @@ import {setCookieOnResponseHeaders} from "@/helpers/tokenHelpers";
 
 const apiKey = process.env.NEXT_PUBLIC_INTERNAL_API_KEY as string;
 const cookieName = process.env.COOKIE_NAME as string;
+const internalBaseUrl = process.env.NEXT_PUBLIC_INTERNAL_URL as string;
 
 export async function middleware(request: NextRequest) {
     if (request.url.includes('/api/')) {
@@ -14,21 +15,25 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    if (request.url.includes('auth')) {
+    if (request.url.includes(`${internalBaseUrl}`) && !request.url.includes("login")) {
+        console.log("url", request.url)
         const tokenCookie = request.cookies.get(`${cookieName}`)?.value as string;
-        let tokenResponse:StoreTokenRequest = await getAccessToken(tokenCookie)
-        console.log("retrieve cookie response",tokenResponse)
+        if (tokenCookie !== undefined){
+            let tokenResponse:StoreTokenRequest = await getAccessToken(tokenCookie)
+            console.log("retrieve cookie response",tokenResponse)
 
-        //set the token on outgoing headers
-        request.headers.set("Authorization",`Bearer ${tokenResponse.accessToken}`)
+            //set the token on outgoing headers
+            request.headers.set("Authorization",`Bearer ${tokenResponse.accessToken}`)
 
-        //store new token
-        if (tokenResponse.storeToken){
-            let response = NextResponse.next();
-            const {accessToken, expiresAt, refreshToken} = tokenResponse;
-            setCookieOnResponseHeaders(accessToken,refreshToken,expiresAt, response);
+            //store new token
+            if (tokenResponse.storeToken){
+                let response = NextResponse.next();
+                const {accessToken, expiresAt, refreshToken} = tokenResponse;
 
-            return response;
+                setCookieOnResponseHeaders(accessToken,refreshToken,expiresAt, response);
+
+                return response;
+            }
         }
     }
 

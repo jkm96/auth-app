@@ -8,3 +8,10 @@ export interface AdminApiResponse{
     status: number;
     statusText: string;
 }
+
+export interface AdminApiErrorResponse{
+    data: string;
+    statusCode: number;
+    message: string;
+    succeeded: boolean;
+}

@@ -47,6 +47,7 @@ export function RegisterForm() {
         }
 
         let response = await registerUser(registerFormData);
+        console.log("register response", response)
         if (response.statusCode === 200) {
             setRegisterFormData(initialFormState)
             router.push('/login')

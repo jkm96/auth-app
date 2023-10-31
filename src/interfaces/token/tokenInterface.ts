@@ -6,8 +6,8 @@ export interface StoreTokenRequest{
 }
 
 export interface RefreshTokenRequest {
-    Token: string;
-    RefreshToken: string;
+    token: string;
+    refreshToken: string;
 }
 
 export interface TokenResponse {

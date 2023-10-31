@@ -19,4 +19,6 @@ export function setCookieOnResponseHeaders(accessToken: string, refreshToken: st
         sameSite: "strict",
         path: "/",
     });
+
+    console.log("token stored successfully")
 }

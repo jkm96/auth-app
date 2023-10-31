@@ -1,27 +1,17 @@
-import {AxiosError} from 'axios';
-import adminApiClient from "@/libs/admin_api_axios/adminApiClient";
-import {NextRequest, NextResponse} from "next/server";
-import {AdminApiResponse} from "@/interfaces/shared/AdminApiInterface";
+import adminApiClient from "@/libs/adminApiAxios/adminApiClient";
+import {NextRequest} from "next/server";
+import {handleAxiosResponse, handlerApiException} from "@/helpers/responseHelpers";
 
 export async function POST(request: NextRequest) {
     try {
         const requestBody = await request.text();
         console.log("register request",requestBody);
+        console.log("register request cookies",request.cookies.getAll());
         const response = await adminApiClient
-            .post<AdminApiResponse>('identity/user/create-next-user', `${requestBody}`);
-        if (response.status === 200) {
-            const adminResponse = response.data;
-            return NextResponse.json(adminResponse);
-        } else {
-            return NextResponse.json(response.data);
-        }
+            .post('identity/user/create-user', `${requestBody}`);
+
+     return handleAxiosResponse(response);
     } catch (error: unknown) {
-        if (error instanceof AxiosError) {
-            // Handle Axios errors
-            const axiosError = error as AxiosError;
-            console.log("error response data", axiosError.response?.data);
-            console.log("error response status", axiosError.response?.status);
-            return NextResponse.json(axiosError.response?.data || "Internal Server Error");
-        }
+        return handlerApiException(error);
     }
 }

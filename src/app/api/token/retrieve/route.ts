@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {RefreshTokenRequest, StoreTokenRequest, TokenResponse} from "@/interfaces/token/tokenInterface";
-import adminApiClient from "@/libs/admin_api_axios/adminApiClient";
+import adminApiClient from "@/libs/adminApiAxios/adminApiClient";
 
 export async function POST(request: NextRequest) {
     try {
@@ -44,8 +44,8 @@ export async function POST(request: NextRequest) {
 
 async function refreshAccessToken(refreshToken: string, token: string) {
     const request: RefreshTokenRequest = {
-        RefreshToken: refreshToken,
-        Token: token
+        refreshToken: refreshToken,
+        token: token
     };
 
     const response = await adminApiClient

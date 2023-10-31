@@ -3,21 +3,19 @@ import * as https from "https";
 
 const adminApiClient = axios.create({
     baseURL: `${process.env.ADMIN_API_URL}`,
-    timeout: 5000,
+    timeout: 30000,
     headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
     },
     httpsAgent: new https.Agent({ rejectUnauthorized: false })
 });
 
 adminApiClient.interceptors.request.use(
     function (config) {
-        // console.log("axios interceptor",config.url)
-        // console.log("axios request headers",config.headers)
-        let url = config.url as string;
-        if (!url.includes("auth")){
+        console.log("axios interceptor",config.url)
+        console.log("axios request headers",config.headers)
 
-        }
         return config;
     },
     function (error) {
