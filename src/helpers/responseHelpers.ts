@@ -12,10 +12,11 @@ export function handleAxiosResponse(response: AxiosResponse<any>) {
     }
 }
 
-export function handlerApiException(error:any) {
+export function handleApiException(error:any) {
     if (error instanceof AxiosError) {
         // Handle Axios errors
         const axiosError = error as AxiosError;
+        console.log("error response", axiosError.response);
         console.log("error response data", axiosError.response?.data);
         console.log("error response status", axiosError.response?.status);
         const errorData:any = axiosError.response?.data;

@@ -1,12 +1,10 @@
 import {NextResponse} from "next/server";
 import {StoreTokenRequest} from "@/interfaces/token/tokenInterface";
-
-const baseUrl = process.env.NEXT_PUBLIC_INTERNAL_URL as string;
-const apiKey = process.env.NEXT_PUBLIC_INTERNAL_API_KEY as string;
+import {apiKey, internalBaseUrl} from "@/constants/appConstants";
 
 export async function storeAccessToken(storeTokenRequest: StoreTokenRequest) {
     try {
-        const response = await fetch(`${baseUrl}/token/store`, {
+        const response = await fetch(`${internalBaseUrl}/token/store`, {
             method: 'POST',
             headers: {
                 'x-api-key':`${apiKey}`,
@@ -15,7 +13,6 @@ export async function storeAccessToken(storeTokenRequest: StoreTokenRequest) {
             body: JSON.stringify(storeTokenRequest),
             credentials: 'same-origin'
         });
-        console.log("store cookie response", response)
 
         return response.json();
     } catch (error) {
@@ -25,7 +22,7 @@ export async function storeAccessToken(storeTokenRequest: StoreTokenRequest) {
 
 export async function getAccessToken(tokenCookie: string) {
     try {
-        const response = await fetch(`${baseUrl}/token/retrieve`, {
+        const response = await fetch(`${internalBaseUrl}/token/retrieve`, {
             method: 'POST',
             headers: {
                 'x-api-key':`${apiKey}`,

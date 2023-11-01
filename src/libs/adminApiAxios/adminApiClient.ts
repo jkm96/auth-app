@@ -1,8 +1,9 @@
 import axios from "axios";
 import * as https from "https";
+import {adminApiBaseUrl} from "@/constants/appConstants";
 
 const adminApiClient = axios.create({
-    baseURL: `${process.env.ADMIN_API_URL}`,
+    baseURL: `${adminApiBaseUrl}`,
     timeout: 30000,
     headers: {
         'Content-Type': 'application/json',

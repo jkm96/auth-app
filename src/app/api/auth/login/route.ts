@@ -1,5 +1,5 @@
 import adminApiClient from "@/libs/adminApiAxios/adminApiClient";
-import {handleAxiosResponse, handlerApiException} from "@/helpers/responseHelpers";
+import {handleAxiosResponse, handleApiException} from "@/helpers/responseHelpers";
 
 export async function POST(request: Request) {
     try {
@@ -9,6 +9,6 @@ export async function POST(request: Request) {
 
         return handleAxiosResponse(response);
     } catch (error: unknown) {
-        return handlerApiException(error);
+        return handleApiException(error);
     }
 }

@@ -9,10 +9,9 @@ export function isEmailValid (email: string): boolean{
 
 export function validateRegisterFormInputErrors(formData: RegisterUserRequest) {
     const errors:RegisterUserRequest = {
-        email: "",
-        userName: "",
-        name: "",
-        password: "",
+        lastName: "", phoneNumber: "",
+        firstName: "", password: "",
+        email: "", userName: ""
     }
 
     if (formData.email.trim() === "") {
@@ -27,11 +26,23 @@ export function validateRegisterFormInputErrors(formData: RegisterUserRequest) {
         errors.userName = "Username must be at least 4 characters long";
     }
 
-    if (formData.name.trim() === "") {
-        errors.name = "Name cannot be empty";
-    } else if (formData.name.trim().length < 4) {
-        errors.name = "Name must be at least 4 characters long";
+    if (formData.firstName.trim() === "") {
+        errors.firstName = "FirstName cannot be empty";
+    } else if (formData.firstName.trim().length < 4) {
+        errors.firstName = "FirstName must be at least 4 characters long";
     }
+
+    if (formData.lastName.trim() === "") {
+        errors.lastName = "LastName cannot be empty";
+    } else if (formData.lastName.trim().length < 4) {
+        errors.lastName = "LastName must be at least 4 characters long";
+    }
+
+   if (formData.phoneNumber.trim() !== ""){
+       if (formData.phoneNumber.trim().length < 8 || formData.phoneNumber.trim().length > 12) {
+           errors.phoneNumber = "Phone number must be between 8 and 12 characters long";
+       }
+   }
 
     if (formData.password.trim() === "") {
         errors.password = "Password cannot be empty";

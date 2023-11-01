@@ -7,6 +7,7 @@ import {EyeFilledIcon, EyeSlashFilledIcon} from "@nextui-org/shared-icons";
 import {StoreTokenRequest, TokenResponse} from "@/interfaces/token/tokenInterface";
 import {storeAccessToken} from "@/libs/token/tokenService";
 import {validateLoginFormInputErrors} from "@/helpers/validationHelpers";
+import Link from "next/link";
 
 const initialFormState: LoginUserRequest = {
     email: "", password: ""
@@ -117,6 +118,8 @@ export function LoginForm() {
                 </div>
 
             </form>
+
+            <p>Don`t have an account? <Link className="text-blue-700" href="/register">Register here </Link></p>
         </div>
     );
 }

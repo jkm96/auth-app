@@ -6,9 +6,12 @@ import {RegisterUserRequest} from "@/interfaces/auth/registerUserInterface";
 import {EyeFilledIcon, EyeSlashFilledIcon} from "@nextui-org/shared-icons";
 import {useRouter} from "next/navigation";
 import {validateRegisterFormInputErrors} from "@/helpers/validationHelpers";
+import Link from "next/link";
 
 const initialFormState: RegisterUserRequest = {
-    name: "", password: "", email: "", userName: ""
+    lastName: "", phoneNumber: "",
+    firstName: "", password: "",
+    email: "", userName: ""
 };
 
 export function RegisterForm() {
@@ -18,7 +21,9 @@ export function RegisterForm() {
     const toggleVisibility = () => setIsVisible(!isVisible);
     const [registerFormData, setRegisterFormData] = useState(initialFormState);
     const [inputErrors, setInputErrors] = useState({
-        email: "", userName: "", name: "", password: "",
+        lastName: "", phoneNumber: "",
+        firstName: "", password: "",
+        email: "", userName: ""
     });
 
     const handleChange = (e: any) => {
@@ -40,7 +45,8 @@ export function RegisterForm() {
         if (
             registerFormData.email.trim() === "" ||
             registerFormData.userName.trim() === "" ||
-            registerFormData.name.trim() === "" ||
+            registerFormData.firstName.trim() === "" ||
+            registerFormData.lastName.trim() === "" ||
             registerFormData.password.trim() === ""
         ) {
             return;
@@ -64,6 +70,21 @@ export function RegisterForm() {
             <form onSubmit={handleRegisterSubmit} className="w-4/12">
 
                 <div className="flex flex-wrap md:flex-nowrap gap-4 m-2">
+                    <Input type="text"
+                           onChange={handleChange}
+                           value={registerFormData.userName}
+                           label="Username"
+                           name="userName"
+                           variant={"bordered"}
+                           placeholder="Enter your username"
+                           onInput={() => {
+                               setInputErrors({...inputErrors, userName: ""});
+                           }}
+                           isInvalid={inputErrors.userName !== ""}
+                           errorMessage={inputErrors.userName}/>
+                </div>
+
+                <div className="flex flex-wrap md:flex-nowrap gap-4 m-2">
                     <Input type="email"
                            onChange={handleChange}
                            value={registerFormData.email}
@@ -81,31 +102,46 @@ export function RegisterForm() {
                 <div className="flex flex-wrap md:flex-nowrap gap-4 m-2">
                     <Input type="text"
                            onChange={handleChange}
-                           value={registerFormData.userName}
-                           label="Username"
-                           name="userName"
+                           value={registerFormData.firstName}
+                           label="FirstName"
+                           name="firstName"
                            variant={"bordered"}
-                           placeholder="Enter your username"
+                           placeholder="Enter your first name"
                            onInput={() => {
-                               setInputErrors({...inputErrors, userName: ""});
+                               setInputErrors({...inputErrors, firstName: ""});
                            }}
-                           isInvalid={inputErrors.userName !== ""}
-                           errorMessage={inputErrors.userName}/>
+                           isInvalid={inputErrors.firstName !== ""}
+                           errorMessage={inputErrors.firstName}/>
                 </div>
 
                 <div className="flex flex-wrap md:flex-nowrap gap-4 m-2">
                     <Input type="text"
                            onChange={handleChange}
-                           value={registerFormData.name}
-                           label="Name"
-                           name="name"
+                           value={registerFormData.lastName}
+                           label="LastName"
+                           name="lastName"
                            variant={"bordered"}
-                           placeholder="Enter your full name"
+                           placeholder="Enter your last name"
                            onInput={() => {
-                               setInputErrors({...inputErrors, name: ""});
+                               setInputErrors({...inputErrors, lastName: ""});
                            }}
-                           isInvalid={inputErrors.name !== ""}
-                           errorMessage={inputErrors.name}/>
+                           isInvalid={inputErrors.lastName !== ""}
+                           errorMessage={inputErrors.lastName}/>
+                </div>
+
+                <div className="flex flex-wrap md:flex-nowrap gap-4 m-2">
+                    <Input type="text"
+                           onChange={handleChange}
+                           value={registerFormData.phoneNumber}
+                           label="PhoneNumber"
+                           name="phoneNumber"
+                           variant={"bordered"}
+                           placeholder="Enter your phone number"
+                           onInput={() => {
+                               setInputErrors({...inputErrors, phoneNumber: ""});
+                           }}
+                           isInvalid={inputErrors.phoneNumber !== ""}
+                           errorMessage={inputErrors.phoneNumber}/>
                 </div>
 
                 <div className="flex flex-wrap md:flex-nowrap gap-4 m-2">
@@ -140,6 +176,10 @@ export function RegisterForm() {
                 </div>
 
             </form>
+
+            <p className="items-start text-start">
+                Already have an account? <Link className="text-blue-700" href="/login">Login here </Link>
+            </p>
         </div>
     );
 }

@@ -1,13 +1,11 @@
 import {LoginUserRequest} from "@/interfaces/auth/loginUserInterface";
 import {RegisterUserRequest} from "@/interfaces/auth/registerUserInterface";
 import {NextResponse} from "next/server";
-
-const baseUrl = process.env.NEXT_PUBLIC_INTERNAL_URL as string;
-const apiKey = process.env.NEXT_PUBLIC_INTERNAL_API_KEY as string;
+import {apiKey, internalBaseUrl} from "@/constants/appConstants";
 
 export async function loginUser(loginRequest: LoginUserRequest) {
     try {
-        const response = await fetch(`${baseUrl}/auth/login`, {
+        const response = await fetch(`${internalBaseUrl}/auth/login`, {
             method: 'POST',
             headers: {
                 'x-api-key': `${apiKey}`,
@@ -24,7 +22,7 @@ export async function loginUser(loginRequest: LoginUserRequest) {
 
 export async function registerUser(registerRequest: RegisterUserRequest) {
     try {
-        const response = await fetch(`${baseUrl}/auth/register`, {
+        const response = await fetch(`${internalBaseUrl}/auth/register`, {
             method: 'POST',
             headers: {
                 'x-api-key': `${apiKey}`,
